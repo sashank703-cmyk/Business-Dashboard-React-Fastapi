@@ -1,7 +1,7 @@
-
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import mysql.connector
+import os
 import mysql.connector
 
 app = FastAPI()
@@ -19,10 +19,11 @@ app.add_middleware(
 # MYSQL CONNECTION
 
 db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="Nothing@12",
-    database="business_db"
+    host=os.getenv("DB_HOST", "mysql"),
+    port=int(os.getenv("DB_PORT", "3306")),
+    user=os.getenv("DB_USER", "root"),
+    password=os.getenv("DB_PASSWORD", ""),
+    database=os.getenv("DB_NAME", "business_db")
 )
 
 cursor = db.cursor()
